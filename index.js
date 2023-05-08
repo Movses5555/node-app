@@ -1,6 +1,4 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const cors = require('cors');
 const {
     CountriesRouters,
@@ -16,15 +14,6 @@ app.use(express.json())
 app.use('/api', CountriesRouters);
 app.use('/api', RegionsRouters);
 app.use('/api', CitiesRouters);
-
-app.get('/', (req, res) => {
-    console.log('====================================');
-    console.log('aaaaaaaaaaaaaaa====');
-    console.log('====================================');
-    res.send({
-        name: 'llllllllll'
-    })
-})
 
 
 app.listen(process.env.PORT, () => {

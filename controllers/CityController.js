@@ -12,11 +12,11 @@ const getCities = async (req, res) => {
     if (search) {
       whereClause = {
         CityName: {
-          [Op.iLike]: `%${search}%`,
+          [Op.like]: `%${search}%`,
         },
       };
     }
-    const { count, rows } = await Region.findAndCountAll({
+    const { count, rows } = await City.findAndCountAll({
       limit,
       offset,
       where: whereClause,
@@ -36,8 +36,8 @@ const getCities = async (req, res) => {
 // create new city
 const createCity = async (req, res) => {
   try {
-    const { CityName, cityId } = req.body;
-    const city = await City.create({ CityName, cityId });
+    const { CityName, regionId } = req.body;
+    const city = await City.create({ CityName, regionId });
     res.status(201).json(city);
   } catch (error) {
     console.error('Error creating city:=====');
@@ -52,7 +52,7 @@ const createCity = async (req, res) => {
 // update city by id
 const updateCity = async (req, res) => {
   try {
-    const { CityName } = req.body;
+    const { CityName, regionId } = req.body;
     const { id } = req.params;
     const findCityById = await City.findOne({
       where: {
@@ -67,6 +67,9 @@ const updateCity = async (req, res) => {
     }
     if(CityName) {
       findCityById.CityName = CityName
+    }
+    if(regionId) {
+      findCityById.regionId = regionId
     }
     const updateCity = await findCityById.save();
     if(!updateCity) {

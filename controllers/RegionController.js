@@ -12,7 +12,7 @@ const getRegions = async (req, res) => {
     if (search) {
       whereClause = {
         RegionName: {
-          [Op.iLike]: `%${search}%`,
+          [Op.like]: `%${search}%`,
         },
       };
     }
@@ -52,7 +52,7 @@ const createRegion = async (req, res) => {
 // update region by id
 const updateRegion = async (req, res) => {
   try {
-    const { RegionName } = req.body;
+    const { RegionName, countryId } = req.body;
     const { id } = req.params;
     const findRegionById = await Region.findOne({
       where: {
@@ -67,6 +67,9 @@ const updateRegion = async (req, res) => {
     }
     if(RegionName) {
       findRegionById.RegionName = RegionName
+    }
+    if(countryId) {
+      findRegionById.countryId = countryId
     }
     const updateRegion = await findRegionById.save();
     if(!updateRegion) {

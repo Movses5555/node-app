@@ -8,7 +8,8 @@ const Country = sequelize.define('countries', {
     unique: true
   }
 }, {
-  tableName: 'countries'
+  tableName: 'countries',
+  timestamps: false
 });
 
 module.exports = Country;

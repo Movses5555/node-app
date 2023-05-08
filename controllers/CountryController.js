@@ -5,8 +5,6 @@ const { Country, Region } = require('../models');
 // get all countries
 const getCountries = async (req, res) => {
   const { page = 1, size, search } = req.query;
-  const limit = parseInt(size) || 10;
-  const offset = (parseInt(page) - 1) * limit;
   try {
     let whereClause = {};
     if (search) {
@@ -16,18 +14,26 @@ const getCountries = async (req, res) => {
         },
       };
     }
-    const { count, rows } = await Country.findAndCountAll({
-      limit,
-      offset,
+    const queryOptions = {
       include: Region,
       where: whereClause,
-    });
+    };
+
+    let limit = 1;
+    let offset = (parseInt(page) - 1) * limit;
+    if(size !== 'all') {
+      limit = parseInt(size) || 10;
+      offset = (parseInt(page) - 1) * limit;
+      queryOptions.offset = offset;
+      queryOptions.limit = limit;
+    }
+    const { count, rows } = await Country.findAndCountAll(queryOptions);
     return res.status(200).json({
       total: count,
       data: rows,
       currentPage: offset,
       paginationCount: limit,
-      pageCount: count / limit
+      pageCount: parseInt(count / limit)
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -80,7 +86,11 @@ const updateCountry = async (req, res) => {
       data: updateCountry
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update country' });
+    if(error?.name === 'SequelizeUniqueConstraintError') {
+      res.status(500).json({ message: 'This country name already exists.' });
+    } else {
+      res.status(500).json({ message: 'Failed to update country' });
+    }
   }
 };
 
