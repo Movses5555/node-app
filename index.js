@@ -11,11 +11,11 @@ const app = express()
 app.use(cors());
 app.use(express.json())
 
-app.use('/api', CountriesRouters);
-app.use('/api', RegionsRouters);
-app.use('/api', CitiesRouters);
+app.use('/api/countries', CountriesRouters);
+app.use('/api/regions', RegionsRouters);
+app.use('/api/cities', CitiesRouters);
 
 
-app.listen(process.env.PORT, () => {
-   console.log(`Example app listening on port ${process.env.PORT}`)
+app.listen(process.env.APP_PORT, () => {
+   console.log(`Example app listening on port ${process.env.APP_PORT}`)
 })

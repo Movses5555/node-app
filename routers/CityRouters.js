@@ -8,12 +8,12 @@ const {
 } = require('../controllers/CityController');
 
 // Route to get all cities
-router.get('/cities', getCities);
+router.get('/', getCities);
 // Route to create a new city
-router.post('/cities', createCity);
+router.post('/', createCity);
 // Route to update a city
-router.put('/cities/:id', updateCity);
+router.put('/:id', updateCity);
 // Route to delete a city
-router.delete('/cities/:id', deleteCity);
+router.delete('/:id', deleteCity);
 
 module.exports = router;

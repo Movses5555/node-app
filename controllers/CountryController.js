@@ -22,7 +22,7 @@ const getCountries = async (req, res) => {
     let limit = 1;
     let offset = (parseInt(page) - 1) * limit;
     if(size !== 'all') {
-      limit = parseInt(size) || 10;
+      limit = parseInt(size) || 100;
       offset = (parseInt(page) - 1) * limit;
       queryOptions.offset = offset;
       queryOptions.limit = limit;

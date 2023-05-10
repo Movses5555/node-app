@@ -8,12 +8,12 @@ const {
 } = require('../controllers/RegionController');
 
 // Route to get all regions
-router.get('/regions', getRegions);
+router.get('/', getRegions);
 // Route to create a new region
-router.post('/regions', createRegion);
+router.post('/', createRegion);
 // Route to update a region
-router.put('/regions/:id', updateRegion);
+router.put('/:id', updateRegion);
 // Route to delete a region
-router.delete('/regions/:id', deleteRegion);
+router.delete('/:id', deleteRegion);
 
 module.exports = router;

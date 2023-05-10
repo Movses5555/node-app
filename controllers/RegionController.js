@@ -5,7 +5,7 @@ const { Region, City } = require('../models');
 // get all regions
 const getRegions = async (req, res) => {
   const { page = 1, size, search } = req.query;
-  const limit = parseInt(size) || 10;
+  const limit = parseInt(size) || 100;
   const offset = (parseInt(page) - 1) * limit;
   try {
     let whereClause = {};
